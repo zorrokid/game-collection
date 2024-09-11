@@ -18,10 +18,11 @@ pub struct GameCollectionApp {
     state: GameCollectionState,
     ui_state: UiState,
     new_software_title: Option<SoftwareTitle>,
+    selected_software_title: Option<SoftwareTitle>,
 }
 
-impl GameCollectionApp {
-    pub fn new(_cc: &eframe::CreationContext<'_>) -> Self {
+impl<'a> GameCollectionApp {
+    pub fn new(_cc: &eframe::CreationContext<'a>) -> Self {
         Self::default()
     }
 }
@@ -38,7 +39,11 @@ impl eframe::App for GameCollectionApp {
                     egui::ScrollArea::vertical().show(ui, |ui| {
                         ui.with_layout(egui::Layout::top_down(egui::Align::LEFT), |ui| {
                             for software_title in &self.state.software_titles {
-                                ui.label(&software_title.name);
+                                ui.selectable_value(
+                                    &mut self.selected_software_title,
+                                    Some(software_title.clone()),
+                                    software_title.name.as_str(),
+                                );
                             }
                         });
                     });
@@ -56,7 +61,12 @@ impl eframe::App for GameCollectionApp {
                             }
                         }
                     }
-                    ui.label("Hello, world!");
+                    if self.ui_state.ui_mode == UiMode::Show {
+                        if let Some(selected_software_title) = &self.selected_software_title {
+                            ui.label("Name:");
+                            ui.label(selected_software_title.name.clone());
+                        }
+                    }
                 });
             });
         });
