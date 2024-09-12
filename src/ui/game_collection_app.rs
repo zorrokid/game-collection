@@ -38,7 +38,7 @@ impl eframe::App for GameCollectionApp {
                     }
                     egui::ScrollArea::vertical().show(ui, |ui| {
                         ui.with_layout(egui::Layout::top_down(egui::Align::LEFT), |ui| {
-                            for software_title in &self.state.software_titles {
+                            for software_title in self.state.get_software_titles() {
                                 ui.selectable_value(
                                     &mut self.selected_software_title,
                                     Some(software_title.clone()),
@@ -55,8 +55,10 @@ impl eframe::App for GameCollectionApp {
                             ui.text_edit_singleline(&mut new_software_title.name);
                             if ui.button("Save").clicked() {
                                 if let Some(new_software_title) = self.new_software_title.take() {
-                                    self.state.software_titles.push(new_software_title);
+                                    let id = self.state.add_software_title(new_software_title);
                                     self.ui_state.ui_mode = UiMode::Show;
+                                    self.selected_software_title =
+                                        self.state.get_software_title(id);
                                 }
                             }
                         }
