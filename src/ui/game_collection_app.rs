@@ -39,8 +39,9 @@ impl eframe::App for GameCollectionApp {
                     }
                     egui::ScrollArea::vertical().show(ui, |ui| {
                         ui.with_layout(egui::Layout::top_down(egui::Align::LEFT), |ui| {
-                            for software_title in
-                                self.software_title_repository.get_software_titles()
+                            for software_title in self
+                                .software_title_repository
+                                .get_software_title_list_models()
                             {
                                 ui.selectable_value(
                                     &mut self.selected_software_title_id,
