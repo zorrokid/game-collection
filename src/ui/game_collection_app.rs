@@ -1,4 +1,4 @@
-use crate::models::{game_collection_state::GameCollectionState, software_title::SoftwareTitle};
+use crate::models::software_title::SoftwareTitle;
 use crate::repositories::software_title_repository::SoftwareTitleRepository;
 
 use eframe::egui;
@@ -16,7 +16,6 @@ pub struct UiState {
 
 #[derive(Default)]
 pub struct GameCollectionApp {
-    state: GameCollectionState,
     ui_state: UiState,
     new_software_title: Option<SoftwareTitle>,
     selected_software_title_id: Option<u32>,
