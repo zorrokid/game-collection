@@ -1,3 +1,4 @@
+use super::software_title_pane::SoftwareTitlePane;
 use crate::models::software_title::SoftwareTitle;
 use crate::repositories::software_title_repository::SoftwareTitleRepository;
 
@@ -69,13 +70,12 @@ impl eframe::App for GameCollectionApp {
                         }
                     }
                     if self.ui_state.ui_mode == UiMode::Show {
-                        if let Some(selected_software_title_id) = &self.selected_software_title_id {
-                            let selected_software_title = self
-                                .software_title_repository
-                                .get_software_title(*selected_software_title_id)
-                                .unwrap();
-                            ui.label("Name:");
-                            ui.label(selected_software_title.name.clone());
+                        if let Some(selected_software_title_id) = self.selected_software_title_id {
+                            SoftwareTitlePane::new(
+                                &mut self.software_title_repository,
+                                selected_software_title_id,
+                            )
+                            .show(ui);
                         }
                     }
                 });
